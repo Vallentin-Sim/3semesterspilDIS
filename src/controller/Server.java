@@ -104,7 +104,7 @@ public class Server {
         ClientHandler ch = clients.get(name);
         if (ch != null) ch.send(message);
     }
-
+    // TODO Test når denne gameLock ikke er synchronized. Altså at den kritiske sektion fejler.
     private void handleMove(String moverName, String direction) {
         synchronized (gameLock) {
             PlayerState mover = stateByName.get(moverName);
@@ -213,7 +213,7 @@ public class Server {
                     return;
                 }
                 this.name = proposed;
-
+                // TODO gameLock skal testes for fejl når vi ikke har en kritisk sektion (såsom fx Thread.sleep(30))
                 // Spawn + init state
                 synchronized (gameLock) {
                     int[] spawn = allocateSpawn();
