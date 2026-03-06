@@ -116,6 +116,7 @@ public class GUI extends Application {
 			me = new Player(myName, 0, 0, "up"); // position sættes af server MOVE besked
 			players.add(me);
 
+			// Skift localhost ud med socket ip til server :)
 			client = new Client("localhost", 8080);
 
 			client.startReader(line -> {

@@ -41,10 +41,10 @@ public class Server {
             "wwwwwwwwwwwwwwwwwwww"
     };
 
-    // Enkle startpositioner (du kan udvide/randomisere)
+    // Enkle startpositioner (Ikke randomized)
     private final int[][] spawns = {
-            {9, 4},   // Orville i din GUI
-            {14, 15}, // Harry i din GUI
+            {9, 4},
+            {14, 15},
             {1, 1},
             {18, 18},
             {1, 18},
@@ -97,6 +97,7 @@ public class Server {
     private void broadcast(String message) {
         for (ClientHandler ch : clients.values()) {
             ch.send(message);
+            System.out.println(message);
         }
     }
 
@@ -250,6 +251,7 @@ public class Server {
             } finally {
                 if (name != null) {
                     clients.remove(name);
+                    // TODO skal teste når vi ikke har synchronized med
                     synchronized (gameLock) {
                         stateByName.remove(name);
                     }
