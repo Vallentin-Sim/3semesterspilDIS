@@ -58,8 +58,8 @@ public class Server {
 
     public void start() throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            System.out.println("Server started on port " + port);
-
+            System.out.println("Server IP: " + serverSocket.getInetAddress() + ":" + serverSocket.getLocalPort());
+            System.out.println("Waiting for connection...");
             while (true) {
                 Socket socket = serverSocket.accept();
                 new Thread(new ClientHandler(socket), "client-handler").start();
@@ -104,6 +104,7 @@ public class Server {
     private void sendTo(String name, String message) {
         ClientHandler ch = clients.get(name);
         if (ch != null) ch.send(message);
+        System.out.println(message + " : " + name);
     }
     // TODO Test når denne gameLock ikke er synchronized. Altså at den kritiske sektion fejler.
     private void handleMove(String moverName, String direction) {
@@ -214,7 +215,7 @@ public class Server {
                     return;
                 }
                 this.name = proposed;
-                // TODO gameLock skal testes for fejl når vi ikke har en kritisk sektion (såsom fx Thread.sleep(30))
+                // TODO gameLock skal testes for fejl når vi ikke har en synchronized kritisk sektion (såsom fx Thread.sleep(30))
                 // Spawn + init state
                 synchronized (gameLock) {
                     int[] spawn = allocateSpawn();

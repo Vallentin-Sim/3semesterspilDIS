@@ -12,6 +12,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.*;
 import javafx.scene.control.TextInputDialog;
+
+import java.util.Objects;
 import java.util.Optional;
 import model.Player;
 
@@ -36,10 +38,7 @@ public class GUI extends Application {
 
 	private Client client;
 
-	private String myName;
-	private boolean helloAccepted = false;
-
-	private final String[] board = {    // 20x20
+    private final String[] board = {    // 20x20
 			"wwwwwwwwwwwwwwwwwwww",
 			"w        ww        w",
 			"w w  w  www w  w  ww",
@@ -81,13 +80,13 @@ public class GUI extends Application {
 
 			GridPane boardGrid = new GridPane();
 
-			image_wall = new Image(getClass().getResourceAsStream("Image/wall4.png"), size, size, false, false);
-			image_floor = new Image(getClass().getResourceAsStream("Image/floor1.png"), size, size, false, false);
+			image_wall = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Image/wall4.png")), size, size, false, false);
+			image_floor = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Image/floor1.png")), size, size, false, false);
 
-			hero_right = new Image(getClass().getResourceAsStream("Image/heroRight.png"), size, size, false, false);
-			hero_left = new Image(getClass().getResourceAsStream("Image/heroLeft.png"), size, size, false, false);
-			hero_up = new Image(getClass().getResourceAsStream("Image/heroUp.png"), size, size, false, false);
-			hero_down = new Image(getClass().getResourceAsStream("Image/heroDown.png"), size, size, false, false);
+			hero_right = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Image/heroRight.png")), size, size, false, false);
+			hero_left = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Image/heroLeft.png")), size, size, false, false);
+			hero_up = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Image/heroUp.png")), size, size, false, false);
+			hero_down = new Image(Objects.requireNonNull(getClass().getResourceAsStream("Image/heroDown.png")), size, size, false, false);
 
 			fields = new Label[20][20];
 			for (int j = 0; j < 20; j++) {
@@ -158,27 +157,24 @@ public class GUI extends Application {
 
 		String candidate = result.get().trim();
 		if (candidate.isBlank()) {
-			showErrorAndRetry("Name cannot be empty.");
+			showErrorAndRetry();
 			return;
 		}
 
 		// Sæt lokal 'me' (position kommer fra serverens MOVE)
-		myName = candidate;
 
-		// Sørg for at vi har 'me' i players med korrekt navn
+        // Sørg for at vi har 'me' i players med korrekt navn
 		// (nem løsning: fjern gammel me og lav ny)
 		if (me != null) {
 			players.remove(me);
 		}
-		me = new model.Player(myName, 0, 0, "up");
+		me = new model.Player(candidate, 0, 0, "up");
 		players.add(me);
-
-		helloAccepted = true;
-		client.sendLine("HELLO " + myName);
+		client.sendLine("HELLO " + candidate);
 	}
 
-	private void showErrorAndRetry(String message) {
-		Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+	private void showErrorAndRetry() {
+		Alert alert = new Alert(Alert.AlertType.ERROR, "Name cannot be empty.", ButtonType.OK);
 		alert.setHeaderText(null);
 		alert.showAndWait();
 		askForNameAndHello();
