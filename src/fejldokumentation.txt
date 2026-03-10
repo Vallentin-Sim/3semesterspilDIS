@@ -3,12 +3,11 @@ Central-løsning synchronized test mangler. OK
 Navngivningstest mangler. Skal laves færdig inden næste gang
 :
 Mangler Opgave 5: Løsning? Undersøg nærmere senere.
-1. Fremvis; hvad sker der når 2 spillers beskeder krydser hinanden?,
-kan problematikken vises i spillet? Skal laves færdig inden næste gang.
+1. Fremvis; hvad sker der når 2 spillers beskeder krydser hinanden?, kan problematikken vises i spillet? OK
 2. consol info skal gives ved spiller fejl. OK
 :
 Mulig opgave 6
-Tilfældig spiller position.
-Et skyde system?
-IP-address vises sammen med navnet.
+Tilfældig spiller position. Måske?
+Et skyde system? NEJ
+IP-address vises sammen med navnet. OK ?
 :

@@ -104,9 +104,9 @@ public class Server {
     private void sendTo(String name, String message) {
         ClientHandler ch = clients.get(name);
         if (ch != null) ch.send(message);
-        System.out.println(message + " : " + name);
+        System.out.println(message + " : " + name + ": " + clients.get(name).socket.getRemoteSocketAddress());
     }
-    // TODO Test når denne gameLock ikke er synchronized. Altså at den kritiske sektion fejler.
+
     private void handleMove(String moverName, String direction) {
         synchronized (gameLock) {
             PlayerState mover = stateByName.get(moverName);
@@ -215,7 +215,6 @@ public class Server {
                     return;
                 }
                 this.name = proposed;
-                // TODO gameLock skal testes for fejl når vi ikke har en synchronized kritisk sektion (såsom fx Thread.sleep(30))
                 // Spawn + init state
                 synchronized (gameLock) {
                     int[] spawn = allocateSpawn();
@@ -252,7 +251,6 @@ public class Server {
             } finally {
                 if (name != null) {
                     clients.remove(name);
-                    // TODO skal teste når vi ikke har synchronized med
                     synchronized (gameLock) {
                         stateByName.remove(name);
                     }
