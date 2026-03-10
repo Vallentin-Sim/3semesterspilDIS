@@ -104,7 +104,11 @@ public class Server {
     private void sendTo(String name, String message) {
         ClientHandler ch = clients.get(name);
         if (ch != null) ch.send(message);
-        System.out.println(message + " : " + name + ": " + clients.get(name).socket.getRemoteSocketAddress());
+        if (clients.containsKey(name)){
+            System.out.println(message + " : " + name + ": " + clients.get(name).socket.getRemoteSocketAddress());
+        } else {
+            System.out.println(message + " : " + name);
+        }
     }
 
     private void handleMove(String moverName, String direction) {
